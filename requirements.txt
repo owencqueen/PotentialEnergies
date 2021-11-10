@@ -1,0 +1,10 @@
+numpy
+pandas
+matplotlib
+gph
+ripser
+sklearn
+scipy
+
+torch
+torch-geometric

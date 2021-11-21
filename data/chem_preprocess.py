@@ -1,8 +1,10 @@
 import os, sys, glob
 import torch
 import numpy as np
+import pandas as pd
 import networkx as nx
 import matplotlib.pyplot as plt
+from sklearn.model_selection import train_test_split
 
 from xyz2mol import read_xyz_file, xyz2mol
 
@@ -60,7 +62,7 @@ def get_edge_index(mol):
         
     return torch.tensor([row, col], dtype=torch.long)
 
-def prepare_dataloader(mol_list):
+def prepare_dataloader(mol_list, Y = None):
     '''
     Prepares a dataloader given a list of molecules
     '''
@@ -75,12 +77,15 @@ def prepare_dataloader(mol_list):
         if i == 0:
             print(edge_index)
 
-        data = Data(x=x, edge_index=edge_index)
+        if Y is None:
+            data = Data(x=x, edge_index=edge_index)
+        else:
+            data = Data(x=x, y=Y[i], edge_index=edge_index)
         data_list.append(data)
 
     return DataLoader(data_list, batch_size=3, shuffle=False), data_list
 
-def get_graph_database(dir):
+def get_graph_dataset(dir, Y, test_size = 0.25, seed = None):
     '''
     Make DataLoader from directory
     '''
@@ -90,8 +95,16 @@ def get_graph_database(dir):
     for f in files:
         all_mols.append(convert_xyz_to_mol(f))
 
-    loader = prepare_dataloader(all_mols)
-    return loader
+   # Split data:
+    train_mask, Ytrain, test_mask, Ytest = train_test_split(list(range(len(all_mols))), Y, test_size = test_size)
+    train_mols = [all_mols[i] for i in train_mask]
+    train_loader = prepare_dataloader(train_mols, Ytrain)
+
+    test_mols = [all_mols[i] for i in test_mask]
+    test_loader = prepare_dataloader(test_mols, Ytest)
+
+    #loader = prepare_dataloader(all_mols)
+    return train_loader, test_loader
 
 def show_networkx(data):
     '''
@@ -104,7 +117,7 @@ def show_networkx(data):
 
 if __name__ == '__main__':
     # Testing conversion methods:
-    data, data_list = get_graph_database(dir = 'initial_data/STRUCTS')
+    data, data_list = get_graph_dataset(dir = 'initial_data/STRUCTS')
     print(data)
 
     show_networkx(data_list[0])

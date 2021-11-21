@@ -458,9 +458,12 @@ def VariancePersist(Filename, generator = False, pixelx=100, pixely=100, mysprea
     #Find pair electronegativities
     eleneg=list()
 
+    # Iterate over connected components to assign difference in electronegativity
     for index in points:
         c = np.where(np.abs((index-a['dperm2all'])) < 1.5e-7)[0] # Decreased tolerance from original code
         #c = np.where(np.abs((index-D)) < 1.5e-7)[0]
+
+        assert not (c.size == 0), "Cannot find matching pair"
 
         eleneg.append(np.abs(ELEMENTS[elements[c[0]]].eleneg - ELEMENTS[elements[c[1]]].eleneg))
    

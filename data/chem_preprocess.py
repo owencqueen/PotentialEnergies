@@ -192,7 +192,7 @@ class PIDataset(torch.utils.data.Dataset):
             ylist.append(yi)
 
         self.X = torch.cat(Xlist, dim=0)
-        self.Y = torch.cat(ylist, dim=0).flatten()
+        self.Y = torch.cat(ylist, dim=0)
 
         if transform is not None:
             # Apply transforms to self.X:

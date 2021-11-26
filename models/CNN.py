@@ -1,4 +1,5 @@
 import sys; sys.path.append('..')
+import pickle
 import numpy as np
 
 import torch
@@ -10,10 +11,13 @@ import matplotlib.pyplot as plt
 
 from data.chem_preprocess import PIDataset
 
-def make_dataloader(base_structures, batch_size = 32):
+global_train_loss = []
+global_test_loss = []
+
+def make_dataloader(base_structures, batch_size = 32, device = None):
     trans = lambda x: x.reshape(1, int(np.sqrt(x.shape[0])), int(np.sqrt(x.shape[0])))
 
-    dataset = PIDataset(root = '../data/xtb_data', base_structures = base_structures, transform = trans)
+    dataset = PIDataset(root = '../data/xtb_data', base_structures = base_structures, transform = trans, device = device)
 
     splits = [int(0.7 * len(dataset)), int(0.3 * len(dataset))]
 
@@ -38,23 +42,25 @@ class CNN1(torch.nn.Module):
     def __init__(self, PI_dim):
         super().__init__()
         self.conv1 = torch.nn.Conv2d(1, 8, 3, padding = 'same')
-        self.batchnorm = torch.nn.BatchNorm2d(8)
+        self.batchnorm1 = torch.nn.BatchNorm2d(8)
         self.conv2 = torch.nn.Conv2d(8, 16, 3, padding = 'same')
+        self.batchnorm2 = torch.nn.BatchNorm2d(16)
         self.fc1 = torch.nn.Linear(16 * PI_dim * PI_dim, 64)
         self.fc1.register_forward_hook(get_activation('fc1'))
         self.fc2 = torch.nn.Linear(64, 1)
 
     def forward(self, x):
         x = F.relu(self.conv1(x))
-        x = self.batchnorm(x)
+        x = self.batchnorm1(x)
         x = F.relu(self.conv2(x))
+        x = self.batchnorm2(x)
         x = torch.nn.Flatten()(x)
         x = F.relu(self.fc1(x))
         x = self.fc2(x) # No activation on final
 
         return x
 
-def train(train_dataloader, model, epochs = 100):
+def train(train_dataloader, testloader, model, epochs = 100):
     criterion = torch.nn.L1Loss()
     optimizer = torch.optim.Adam(model.parameters(), lr = 0.001)
 
@@ -73,7 +79,11 @@ def train(train_dataloader, model, epochs = 100):
             running_loss += loss.item()
 
             if i % 100 == 0:
-                print(f'Epoch: {ep}, Loss: {running_loss / 100}')
+                train_loss = running_loss / (100 * int(100 / i)) if i > 0 else running_loss
+                test_loss = test(testloader, model)
+                global_train_loss.append(train_loss)
+                global_test_loss.append(test_loss)
+                print(f'Epoch: {ep}, Loss: {train_loss}, Test Loss: {test_loss}')
 
         # for X, y in test_dataloader:
             
@@ -117,10 +127,23 @@ def get_embedding(loader, model):
 if __name__ == '__main__':
     model = CNN1(PI_dim = 50)
 
-    train_loader, test_loader = make_dataloader([1], batch_size = 64)
+    assert len(sys.argv) == 2, "usage: python3 CNN.py <epochs>"
+    epochs = int(sys.argv[1])
 
-    train(train_loader, model, epochs = 50)
+    device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+
+    train_loader, test_loader = make_dataloader([1], batch_size = 8, device = device)
+
+    train(train_loader, test_loader, model, epochs = epochs)
 
     print('MAE Test', test(test_loader, model))
 
-    get_embedding(train_loader, model)
+    pickle.dump(global_train_loss, open('global_train_loss.pickle', 'wb'))
+    pickle.dump(global_test_loss, open('global_test_loss.pickle', 'wb'))
+
+    # plt.plot(global_train_loss, label = 'train')
+    # plt.plot(global_test_loss, label = 'test')
+    # plt.legend()
+    # plt.show()
+
+    #get_embedding(train_loader, model)

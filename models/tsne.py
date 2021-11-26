@@ -1,4 +1,4 @@
-import sys; sys.path.append('..')
+#import sys; sys.path.append('..')
 
 from sklearn.manifold import TSNE
 import matplotlib.pyplot as plt
@@ -51,6 +51,6 @@ def make_tsne(structures):
 
 
 if __name__ == '__main__':
-    base_str = '../data/xtb_data/base_'
-    include_structs = [1]
+    base_str = 'data/xtb_data/base_'
+    include_structs = [1, 2, 3, 4, 5]
     make_tsne([base_str + str(i) for i in include_structs])

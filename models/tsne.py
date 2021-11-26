@@ -13,6 +13,9 @@ def make_tsne(structures):
 
         plt.scatter(Xtsne[:,0], Xtsne[:,1], c = y)
         plt.title('TSNE of Base Structure 1')
+        plt.xlabel('TSNE 1')
+        plt.colorbar()
+        plt.ylabel('TSNE 2')
         plt.show()
     else:
         X, y = PI_data(structures, split_by_mol=True)
@@ -35,17 +38,19 @@ def make_tsne(structures):
             else:
                 upper = start_spots[i+1]
 
-            lower = i
+            lower = start_spots[i]
 
-            plt.scatter(Xtsne[lower:upper,0], Xtsne[lower:upper,1], label = 'Molecule ' + str(ytot[lower]))
+            plt.scatter(Xtsne[lower:upper,0], Xtsne[lower:upper,1], label = 'Molecule ' + str(i + 1))
             
         #plt.scatter(Xtsne[:,0], Xtsne[:,1], c = ytot, label = ytot)
         plt.title('Molecules {}'.format([s[-1:] for s in structures]))
         plt.legend()
+        plt.xlabel('TSNE 1')
+        plt.ylabel('TSNE 2')
         plt.show()
 
 
 if __name__ == '__main__':
     base_str = '../data/xtb_data/base_'
-    include_structs = [1, 2]
+    include_structs = [1]
     make_tsne([base_str + str(i) for i in include_structs])

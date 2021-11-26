@@ -179,7 +179,7 @@ def PI_data(
     return aggregate_X, aggregate_y
 
 class PIDataset(torch.utils.data.Dataset):
-    def __init__(self, root, base_structures, transform = None):
+    def __init__(self, root, base_structures, transform = None, device = None):
 
         Xlist = []
         ylist = []
@@ -203,6 +203,10 @@ class PIDataset(torch.utils.data.Dataset):
             self.X = torch.stack(Xnew)
 
         self.X.requires_grad = True # Require grad (for training)
+
+        if device is not None:
+            self.X.to(device)
+            self.Y.to(device)
 
     def __len__(self):
         return self.X.shape[0]

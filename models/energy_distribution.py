@@ -1,4 +1,4 @@
-import sys, os; sys.path.append('..')
+import sys, os #sys.path.append('..')
 import pandas as pd
 import matplotlib.pyplot as plt
 
@@ -30,6 +30,6 @@ if __name__ == '__main__':
     assert len(sys.argv) == 2, "Must give structure number as first argument"
     struct = int(sys.argv[1])
 
-    base_str = '../data/xtb_data/base_'
+    base_str = 'data/xtb_data/base_'
     include_structs = [struct]
     make_distribution([base_str + str(i) for i in include_structs])

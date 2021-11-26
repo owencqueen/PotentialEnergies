@@ -1,7 +1,7 @@
-# PotentialEnergies
-CHEM 420 final project.
+# Potential Energy Prediction with Persistence Images
+CHEM 420 final project: Owen Queen, Sai Thatigotla, and Henry Eigen
 
-## Working with PI code
+## Installing Dependencies
 Install the package ChemTDA by using the `setup.py` file with pip:
 
 ```pip install -e .```
@@ -9,6 +9,9 @@ Install the package ChemTDA by using the `setup.py` file with pip:
 This will allow you to access the `ChemTDA` package, which is what we use to make the persistence images.
 
 ## How to run code
+
+#### Generating Conformations
+To generate the conformations 
 
 #### TSNE Plot
 To make the TSNE plot for molecules 1-5, run:

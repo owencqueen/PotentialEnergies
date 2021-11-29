@@ -9,7 +9,8 @@ import torch.nn.functional as F
 from sklearn.manifold import TSNE
 import matplotlib.pyplot as plt
 
-from data.chem_preprocess import PIDataset
+#from data.chem_preprocess import PIDataset
+from data.torch_process import PIDataset
 
 global_train_loss = []
 global_test_loss = []
@@ -23,7 +24,7 @@ def make_dataloader(base_structures, batch_size = 32, device = None):
 
     train_data, test_data = torch.utils.data.random_split(dataset, [splits[0], splits[1] + (len(dataset) - sum(splits))])
 
-    return DataLoader(train_data, batch_size = batch_size, shuffle=True), DataLoader(test_data, batch_size = len(test_data), shuffle=False)
+    return DataLoader(train_data, batch_size = batch_size, shuffle=True), DataLoader(test_data, batch_size = 1, shuffle=False)
 
 def r2_loss(output, target):
     target_mean = torch.mean(target)

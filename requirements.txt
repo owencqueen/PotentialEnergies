@@ -5,6 +5,6 @@ gph
 ripser
 sklearn
 scipy
+rdkit
 
 torch
-torch-geometric

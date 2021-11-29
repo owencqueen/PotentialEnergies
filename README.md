@@ -47,7 +47,12 @@ python3 show_PI.py data/xtb_data/base_5/STRUCTS/struct_3.xyz
 #### TSNE Plot
 To make the TSNE plot for molecules 1-5, run:
 ```
-python3 models/tsne.py
+python3 models/tsne.py many
+```
+
+To make the TSNE plot just for base structure 1, with points highlighted by energy, run:
+```
+python3 models/tsne.py one
 ```
 
 #### Distribution Plots

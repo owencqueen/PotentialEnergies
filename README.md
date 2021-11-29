@@ -34,6 +34,16 @@ cd generate
 
 "structure number" can be any integer between 1 and 40. This short shell script generates conformations with XTB and then parses and moves all files into the appropriate position in the `data` directory.
 
+#### Visualize PI for Structure
+To visualize a PI for a given input xyz file, run:
+```
+python3 show_PI.py <xyz path>
+```
+For example, you can shown a structure from base structure 5 with:
+```
+python3 show_PI.py data/xtb_data/base_5/STRUCTS/struct_3.xyz
+```
+
 #### TSNE Plot
 To make the TSNE plot for molecules 1-5, run:
 ```

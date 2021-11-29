@@ -17,6 +17,9 @@ pip install -r requirements.txt
 #### XTB
 To generate the conformations that we used, you will have to download (XTB)[https://xtb-docs.readthedocs.io/en/latest/contents.html].
 
+#### RDkit
+This project also requires RdKit, which requires separate installation (here)[https://www.rdkit.org/docs/Install.html].
+
 ## How to run code
 Code below is listed in order of appearance in the PowerPoint.
 

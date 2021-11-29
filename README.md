@@ -15,16 +15,16 @@ pip install -r requirements.txt
 ```
 
 #### XTB
-To generate the conformations that we used, you will have to download (XTB)[https://xtb-docs.readthedocs.io/en/latest/contents.html].
+To generate the conformations that we used, you will have to download [XTB](https://xtb-docs.readthedocs.io/en/latest/contents.html).
 
 #### RDkit
-This project also requires RdKit, which requires separate installation (here)[https://www.rdkit.org/docs/Install.html].
+This project also requires RdKit, which requires separate installation [here](https://www.rdkit.org/docs/Install.html).
 
 ## How to run code
-Code below is listed in order of appearance in the PowerPoint.
+Code below is listed in order of appearance in the PowerPoint. Run all code from the `PotentialEnergies` directory unless instructed otherwise.
 
 #### Generating Conformations
-To generate the conformations, first change the path within the (generate/md.sh)[https://github.com/owencqueen/PotentialEnergies/blob/main/generate/md.sh] to where you have the xtb executable downloaded.
+To generate the conformations, first change the path within the [generate/md.sh](https://github.com/owencqueen/PotentialEnergies/blob/main/generate/md.sh) to where you have the xtb executable downloaded.
 
 Then, run the following:
 ```

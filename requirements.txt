@@ -1,10 +1,9 @@
 numpy
 pandas
 matplotlib
-gph
+giotto-ph
 ripser
 sklearn
 scipy
 
 torch
-torch-geometric

@@ -29,7 +29,7 @@ python3 models/energy_distribution.py 2
 The command line argument specifies the base structure number for which to show the distribution.
 
 #### Basic ML Models
-To run the basic ML models, please run the Jupyter Notebook in.
+To run the basic ML models, please run the Jupyter Notebook [models/PI_basic_predictors.ipynb](https://github.com/owencqueen/PotentialEnergies/blob/main/models/PI_basic_predictors.ipynb).
 
 #### Convolutional Neural Networks
 To run the CNN, please execute the following command:

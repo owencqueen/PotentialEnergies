@@ -4,15 +4,32 @@ CHEM 420 final project: Owen Queen, Sai Thatigotla, and Henry Eigen
 ## Installing Dependencies
 Install the package ChemTDA by using the `setup.py` file with pip:
 
-```pip install -e .```
+```
+pip install -e .
+```
 
-This will allow you to access the `ChemTDA` package, which is what we use to make the persistence images.
+This will allow you to access the `ChemTDA` package, which is what we use to make the persistence images. The next step is to install all dependencies:
+
+```
+pip install -r requirements.txt
+```
+
+#### XTB
+To generate the conformations that we used, you will have to download (XTB)[https://xtb-docs.readthedocs.io/en/latest/contents.html].
 
 ## How to run code
 Code below is listed in order of appearance in the PowerPoint.
 
 #### Generating Conformations
-To generate the conformations 
+To generate the conformations, first change the path within the (generate/md.sh)[https://github.com/owencqueen/PotentialEnergies/blob/main/generate/md.sh] to where you have the xtb executable downloaded.
+
+Then, run the following:
+```
+cd generate
+./md.sh <structure number>
+```
+
+"structure number" can be any integer between 1 and 40. This short shell script generates conformations with XTB and then parses and moves all files into the appropriate position in the `data` directory.
 
 #### TSNE Plot
 To make the TSNE plot for molecules 1-5, run:

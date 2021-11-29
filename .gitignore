@@ -1,0 +1,7 @@
+**.egg-info
+**.DS_store
+.DS_store
+**.ipynb_checkpoints
+**__pycache**
+models/basic_GNN.ipynb
+*.icloud
